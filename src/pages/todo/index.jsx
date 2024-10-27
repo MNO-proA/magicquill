@@ -1,5 +1,7 @@
-import { Plus, Pencil, Trash2, Wand2, X } from "lucide-react";
+import { Plus, Pencil, Trash2, X } from "lucide-react";
 import { useState } from "react";
+import { AutomatedPostingButton } from "../../app_components/AutomatingPostingButton";
+
 
 export const TodoPage = () => {
   const [todos, setTodos] = useState([]);
@@ -22,7 +24,7 @@ export const TodoPage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setFormData({
-      todo: "",
+      todo_content: "",
       username: "",
       password: "",
       email: ""
@@ -163,7 +165,7 @@ export const TodoPage = () => {
         {/* Empty State */}
         {todos.length === 0 ? (
           <div className="bg-slate-900 p-8 rounded-2xl text-center">
-            <p className="text-slate-400 text-lg">No todos yet. Click "Add Todo" to create one!</p>
+            <p className="text-slate-400 text-lg">No todos yet. Click Add Todo to create one!</p>
           </div>
         ) : (
           /* Todo List */
@@ -190,23 +192,29 @@ export const TodoPage = () => {
                 </button>
                 <button 
                   onClick={() => {
+                    setIsModalOpen(true);
                     setFormData({
                       todo: todo.text,
                       username: todo.username,
                       email: todo.email,
                       password: ""
                     });
-                    setIsModalOpen(true);
+                    handleEdit(todo.id, formData)
                   }}
                   className="p-2 text-yellow-400 hover:text-yellow-300 transition-colors"
                 >
                   <Pencil className="h-5 w-5" />
                 </button>
-                <button 
+                {/* <button 
                   className="p-2 text-indigo-400 hover:text-indigo-300 transition-colors"
                 >
                   <Wand2 className="h-5 w-5" />
-                </button>
+                </button> */}
+                <AutomatedPostingButton 
+                  todo={todo} 
+                  onComplete={handleToggle} 
+                />
+          
               </div>
             ))}
           </div>

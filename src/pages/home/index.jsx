@@ -10,9 +10,12 @@ import {
   Shield,
 } from "lucide-react";
 import { Button } from "@mantine/core";
+import { SignUpButton, } from '@clerk/clerk-react'
+import { useAuth } from '@clerk/clerk-react'
+
 
 export const Home = () => {
-  const userId = false;
+  const { userId } = useAuth();
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
       {/* Decorative elements */}
@@ -38,7 +41,11 @@ export const Home = () => {
         </p>
         <div className="flex justify-center space-x-4">
           <button className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105">
-            <Link href="/generate">Start Creating</Link>
+            
+            <Link to={userId? "/generate": "#"}>
+            {userId? <Feather className="m-2 h-5 w-5" />:"Start creating"}
+           </Link>
+         
           </button>
           <button className="bg-transparent border border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out">
             <Link href="#features">Learn More</Link>
@@ -90,7 +97,7 @@ export const Home = () => {
 
       {/* Benefits Section */}
       <div className="py-20 bg-gray-900 rounded-3xl my-20 relative">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-3xl">
+        {/* <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-3xl">
           <svg
             className="absolute w-full h-full"
             viewBox="0 0 100 100"
@@ -116,7 +123,7 @@ export const Home = () => {
               />
             </pattern>
           </defs>
-        </div>
+        </div> */}
         <div className="relative z-10">
           <h2 className="text-3xl font-bold mb-12 text-center text-white">
             Why Choose Our AI Content Generator?
@@ -148,17 +155,21 @@ export const Home = () => {
           Ready to revolutionize your social media strategy?
         </h2>
         {userId ? (
-          <button className="bg-amber-600 hover:bg-amber-700 text-white px-10 py-4 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105">
-            <Link href="/generate">
-              Generate Content Now <Feather className="ml-2 h-5 w-5" />
+            <button className="bg-amber-600 hover:bg-amber-700 text-white px-10 py-4 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105">
+            <Link to="/generate">
+              {/* Generate Content Now  */}
+              <Feather className="mx-5 h-5 w-5" />
             </Link>
           </button>
-        ) : (
-          <Button variant="filled" color="#B45309" radius="lg">
-            Get Started
-            <Feather className="m-2 h-5 w-5" />
-          </Button>
-        )}
+          ) : (
+            <SignUpButton mode="modal" >
+               <Button variant="filled" color="#B45309" radius="lg">
+                Get Started
+                <Feather className="m-2 h-5 w-5" />
+              </Button>
+            </SignUpButton>
+          )}
+        
       </div>
     </main>
   );

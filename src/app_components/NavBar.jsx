@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Menu, X, Feather } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton, SignUpButton, } from '@clerk/clerk-react'
+import { useAuth } from '@clerk/clerk-react'
 
 export const NavBar = () => {
-    const userId = false;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const { userId } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,25 +59,48 @@ export const NavBar = () => {
                       <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                     </Link>
                   ))}
-                  {userId && (
-                    <Link
-                      to="/generate"
-                      className="text-gray-300 hover:text-amber-200 transition-colors py-2 sm:py-0 relative group"
-                    >
-                      Dashboard
-                      <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                    </Link>
-                  )}
-                  <button className="text-gray-300 hover:text-amber-200 transition-colors mt-2 sm:mt-0">
+                      {userId && (
+                <Link
+                to="/generate"
+                className="text-gray-300 hover:text-amber-200 transition-colors py-2 sm:py-0 relative group"
+              >
+                Dashboard
+                <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+              </Link>
+              )}
+              <SignedOut>
+              <SignInButton
+                    mode="modal"
+                  >
+                    
+                  <button className="text-gray-300 hover:text-amber-200 transition-colors py-2 sm:py-0 relative group">
                     Sign In
+                    <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                   </button>
-                  <button className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-full transition-colors mt-2 sm:mt-0">
+                </SignInButton>
+                <SignUpButton
+                    mode="modal"
+                  >
+                <button className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-full transition-colors mt-2 sm:mt-0">
                     Sign Up
                   </button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-10 h-10",
+                      color: '#ffffff'
+                    },
+                  }}
+                />
+              </SignedIn>
+                 
                 </div>
               </div>
             </div>
           </nav>
         </header>
       );
-}
+ }
