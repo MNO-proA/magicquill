@@ -150,7 +150,7 @@ const handleGenerate = async () => {
     }
 
     setGeneratedContent(content);
-    console.log(content)
+    
 
     // Save generated content
     // const savedContent = await saveGeneratedContent(
