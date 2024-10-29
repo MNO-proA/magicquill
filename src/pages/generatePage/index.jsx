@@ -8,7 +8,7 @@ import {
   Feather
 } from "lucide-react";
 import { useState } from "react";
-import { SignedIn, SignedOut, SignInButton, UserButton, SignUpButton, } from '@clerk/clerk-react'
+import {  SignInButton } from '@clerk/clerk-react'
 import { useAuth } from "@clerk/clerk-react";
 import { Button} from "@mantine/core";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -50,9 +50,10 @@ export const GenerateContent = () => {
   const [generatedContent, setGeneratedContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
-  const [history, setHistory] = useState([]);
-  const [selectedHistoryItem, setSelectedHistoryItem] =
-    useState(null);
+  // const [history, setHistory] = useState([]);
+  // const [selectedHistoryItem, setSelectedHistoryItem] =
+  //   useState(null);
+  const [myWorkSpace, setMyWorkSpace] = useState("")
 
 
   if (!isSignedIn) {
@@ -137,8 +138,8 @@ const handleGenerate = async () => {
 
     const result = await model.generateContent(parts);
     const generatedText = await result.response.text();
-    setGeneratedContent(generatedText);
-    console.log(generatedText)
+    // setGeneratedContent(generatedText);
+    // console.log(generatedText)
     let content;
     if (selectedType.value  === "twitter") {
       content = generatedText
@@ -162,9 +163,7 @@ const handleGenerate = async () => {
     // if (savedContent) {
     //   setHistory((prevHistory) => [savedContent, ...prevHistory]);
     // }
-    setImage("")
-    setPrompt("")
-    
+
   } catch (error) {
     console.error("Error generating content:", error);
     setGeneratedContent(["An error occurred while generating content."]);
@@ -252,9 +251,16 @@ const renderContentMock = () => {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               />
-              <p className="mt-1 text-sm text-slate-400">
-                Gemini AI Content Generator
-              </p>
+              <label className="block text-slate-200 mb-2 text-sm font-medium">
+                Workspace
+              </label>
+              <textarea
+                className="w-full bg-slate-800 text-slate-200 p-3 rounded-lg border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none min-h-[120px] resize-vertical"
+                placeholder="Workshop your copied prompt..."
+                value={myWorkSpace}
+                onChange={(e) => setMyWorkSpace(e.target.value)}
+              />
+              
             </div>
             {selectedType.value === "instagram" && (
                 <div>
@@ -287,7 +293,7 @@ const renderContentMock = () => {
             onClick={handleGenerate}
             hidden={isLoading}
             >
-            <Feather className="m-2 h-5 w-5" /> 
+            <Feather className="m-2 h-5 w-20" /> 
             </button>
             {isLoading ? (
               <>
@@ -298,15 +304,16 @@ const renderContentMock = () => {
               </>
                 ) : null
               }
-                   {/* Generated content display */}
-            <ContentDisplay
-              selectedHistoryItem={selectedHistoryItem}
-              generatedContent={generatedContent}
-              selectedType={selectedType}
-              isLoading={isLoading}
-            />
+               
+              {/* Generated content display */}
+              <ContentDisplay
+                // selectedHistoryItem={selectedHistoryItem}
+                generatedContent={generatedContent}
+                selectedType={selectedType}
+                isLoading={isLoading}
+              />
 
-          </div>
+            </div>
                     {/* Content preview */}
                     {generatedContent.length > 0 && (
               <div className="bg-gray-800 p-6 rounded-2xl">

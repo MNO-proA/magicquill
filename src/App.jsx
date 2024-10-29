@@ -22,7 +22,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/generate" element={<GenerateContent/>} />
-      <Route path="/todo" element={<TodoPage/>}/>
+      <Route path="/scheduler" element={<TodoPage/>}/>
       </Route>
     </Route>
   )

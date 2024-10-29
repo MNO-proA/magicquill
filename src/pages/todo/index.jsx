@@ -39,6 +39,7 @@ export const TodoPage = () => {
         text: formData.todo,
         username: formData.username,
         email: formData.email,
+        password: formData.password,
         completed: false 
       }]);
       closeModal();
@@ -66,13 +67,13 @@ export const TodoPage = () => {
       <div className="container mx-auto px-4 max-w-2xl">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-semibold text-amber-500 ">TO DO</h1>
+          <h1 className="text-2xl font-semibold text-amber-500 ">Twitter Scheduler</h1>
           <button 
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-full font-medium transition-colors duration-200"
           >
             <Plus className="h-5 w-5" />
-            Add Todo
+            Add Schedule
           </button>
         </div>
 
@@ -88,19 +89,19 @@ export const TodoPage = () => {
                 <X className="h-5 w-5" />
               </button>
               
-              <h2 className="text-xl font-semibold text-amber-500  mb-6">Add New Todo</h2>
+              <h2 className="text-xl font-semibold text-amber-500  mb-6">Add New Schedule</h2>
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-slate-200 text-sm font-medium mb-2">
-                    Todo
+                    Content
                   </label>
                   <input
                     type="text"
                     name="todo"
                     value={formData.todo}
                     onChange={handleInputChange}
-                    placeholder="Enter your todo..."
+                    placeholder="Paste your content..."
                     className="w-full bg-slate-800 text-slate-200 p-3 rounded-lg border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
                     required
                   />
@@ -155,7 +156,7 @@ export const TodoPage = () => {
                   type="submit"
                   className="w-full bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 mt-6"
                 >
-                  Add Todo
+                  Add To Schedules
                 </button>
               </form>
             </div>
@@ -165,7 +166,7 @@ export const TodoPage = () => {
         {/* Empty State */}
         {todos.length === 0 ? (
           <div className="bg-slate-900 p-8 rounded-2xl text-center">
-            <p className="text-slate-400 text-lg">No todos yet. Click Add Todo to create one!</p>
+            <p className="text-slate-400 text-lg">No schedules yet. Click Add Schedule to create one!</p>
           </div>
         ) : (
           /* Todo List */
@@ -176,12 +177,13 @@ export const TodoPage = () => {
                   type="checkbox"
                   checked={todo.completed}
                   onChange={() => handleToggle(todo.id)}
-                className="h-5 w-5 rounded appearance-none border-2 border-slate-700 checked:bg-green-800 checked:border-green-800"
+                className="h-5 w-5 rounded-full appearance-none border-2 border-slate-700 checked:bg-lime-300 checked:border-lime-300"
                 />
                 <div className="flex-1">
                   <span className={`block text-slate-200 ${todo.completed ? 'line-through text-slate-400' : ''}`}>
                     {todo.text}
                   </span>
+                  <span className="text-sm text-slate-400">{new Date(todo.id).toLocaleString()} - </span>
                   <span className="text-sm text-slate-400">{todo.email}</span>
                 </div>
                 <button 
@@ -197,7 +199,7 @@ export const TodoPage = () => {
                       todo: todo.text,
                       username: todo.username,
                       email: todo.email,
-                      password: ""
+                      password: todo.password
                     });
                     handleEdit(todo.id, formData)
                   }}

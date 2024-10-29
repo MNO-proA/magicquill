@@ -10,8 +10,8 @@ import {
   Shield,
 } from "lucide-react";
 import { Button } from "@mantine/core";
-import { SignUpButton, } from '@clerk/clerk-react'
-import { useAuth } from '@clerk/clerk-react'
+import { SignUpButton, SignInButton, useAuth} from '@clerk/clerk-react'
+
 
 
 export const Home = () => {
@@ -33,20 +33,26 @@ export const Home = () => {
       <div className="text-center py-20 lg:py-32 relative">
         <Feather className="w-16 h-16 text-amber-400 mx-auto mb-6 animate-bounce" />
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-amber-600">
-          Craft Your Digital Legacy
+          Craft Your Digital Legacy Powered By Gemini AI
         </h1>
         <p className="text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
           Create engaging content for Twitter, Instagram, and LinkedIn with
-          cutting-edge AI technology.
+          cutting-edge Gemini AI technology.
         </p>
         <div className="flex justify-center space-x-4">
-          <button className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105">
-            
-            <Link to={userId? "/generate": "#"}>
-            {userId? <Feather className="m-2 h-5 w-5" />:"Start creating"}
-           </Link>
-         
-          </button>
+          <div className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105">
+            {userId ? 
+              <Link to={"/generate"}>
+                <Feather className="m-2 h-5 w-20" />
+              </Link> 
+              :    
+              <SignInButton
+                    mode="modal"
+                  >
+                Start creating
+              </SignInButton>
+            }        
+          </div>
           <button className="bg-transparent border border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out">
             <Link href="#features">Learn More</Link>
           </button>
@@ -126,7 +132,7 @@ export const Home = () => {
         </div> */}
         <div className="relative z-10">
           <h2 className="text-3xl font-bold mb-12 text-center text-white">
-            Why Choose Our AI Content Generator?
+            Why use AI Content Generator?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
